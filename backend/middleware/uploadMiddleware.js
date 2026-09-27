@@ -1,11 +1,15 @@
 import path from 'path';
 import fs from 'fs';
+import { fileURLToPath } from 'url';
 import multer from 'multer';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import cloudinary from '../config/cloudinary.js';
 import dotenv from 'dotenv';
 
-dotenv.config({ override: true });
+dotenv.config({
+  path: path.join(path.dirname(fileURLToPath(import.meta.url)), '..', '.env'),
+  override: true,
+});
 
 // Use Cloudinary when real credentials are configured; otherwise fall back to
 // local disk so the API is fully testable without cloud services.

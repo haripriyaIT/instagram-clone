@@ -5,6 +5,9 @@ import cookieParser from 'cookie-parser';
 import mongoSanitize from 'express-mongo-sanitize';
 import dotenv from 'dotenv';
 
+import path from 'path';
+import { fileURLToPath } from 'url';
+
 import connectDB from './config/db.js';
 import authRoutes from './routes/authRoutes.js';
 import userRoutes from './routes/userRoutes.js';
@@ -16,8 +19,12 @@ import notificationRoutes from './routes/notificationRoutes.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import { generalLimiter } from './middleware/rateLimitMiddleware.js';
 
-// Load environment variables (override: true so .env wins over stray shell env like PORT=0)
-dotenv.config({ override: true });
+// Load environment variables from this folder regardless of process cwd
+// (override: true so .env wins over stray shell env like PORT=0)
+dotenv.config({
+  path: path.join(path.dirname(fileURLToPath(import.meta.url)), '.env'),
+  override: true,
+});
 
 // Connect to MongoDB (vlove)
 connectDB();
